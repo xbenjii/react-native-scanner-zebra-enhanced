@@ -1,19 +1,23 @@
 {
-  "name": "react-native-scanner-zebra",
-  "title": "React Native Scanner Zebra",
+  "name": "react-native-scanner-zebra-enhanced",
+  "title": "React Native Scanner Zebra-enhanced",
   "version": "0.1.3",
-  "description": "React Native module for Zebra barcode scanners",
-  "homepage": "https://github.com/crypton-tech/react-native-scanner-zebra#readme",
-  "baseUrl": "https://github.com/crypton-tech/react-native-scanner-zebra",
+  "description": "React Native module for Zebra barcode scanners Android/IOS ",
+  "homepage": "https://github.com/intellidev1991/react-native-scanner-zebra#readme",
+  "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crypton-tech/react-native-scanner-zebra.git",
-    "baseUrl": "https://github.com/crypton-tech/react-native-scanner-zebra"
+    "url": "git+https://github.com/intellidev1991/react-native-scanner-zebra.git",
+    "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra"
   },
   "keywords": [
-    "react-native", "barcode", "bluetooth", "scanner", "zebra"
+    "react-native",
+    "barcode",
+    "bluetooth",
+    "scanner",
+    "zebra"
   ],
   "author": {
     "name": "Crypton",
