@@ -1,4 +1,4 @@
-# react-native-scanner-zebra
+# react-native-scanner-zebra-enhanced
 
 \*Note: This package is still under beta version\*\*
 
