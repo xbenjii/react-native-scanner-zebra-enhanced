@@ -1,7 +1,7 @@
 {
   "name": "react-native-scanner-zebra-enhanced",
   "title": "React Native Scanner Zebra Enhanced",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "React Native module for Zebra barcode scanners Android/IOS ",
   "homepage": "https://github.com/intellidev1991/react-native-scanner-zebra#readme",
   "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra",
