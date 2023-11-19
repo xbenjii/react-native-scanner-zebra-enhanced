@@ -74,6 +74,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('BarcodeScannerLibrary/barcode_scanner_library_v2.6.19.0-release.aar')
     //noinspection GradleDynamicVersion
+    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
     implementation 'com.facebook.react:react-native:+'  // From node_modules
 }
 

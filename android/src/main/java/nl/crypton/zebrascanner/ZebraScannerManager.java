@@ -11,6 +11,7 @@ import com.zebra.scannercontrol.DCSScannerInfo;
 import com.zebra.scannercontrol.FirmwareUpdateEvent;
 import com.zebra.scannercontrol.IDcsSdkApiDelegate;
 import com.zebra.scannercontrol.SDKHandler;
+import com.zebra.barcode.sdk.sms.ConfigurationUpdateEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,4 +209,9 @@ public class ZebraScannerManager implements IDcsSdkApiDelegate {
     public void dcssdkEventAuxScannerAppeared(DCSScannerInfo dcsScannerInfo, DCSScannerInfo dcsScannerInfo1) {
 
     }
+
+    @Override
+    public void dcssdkEventConfigurationUpdate(ConfigurationUpdateEvent configurationUpdateEvent) {
+
+    } 
 }
