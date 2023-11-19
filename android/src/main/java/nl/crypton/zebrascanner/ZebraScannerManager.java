@@ -1,5 +1,4 @@
 package nl.crypton.zebrascanner;
-
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
