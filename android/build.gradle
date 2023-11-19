@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId "nl.crypton.zebrascanner"
-        minSdkVersion 19
+        minSdkVersion 21
         multiDexEnabled true
         targetSdkVersion 33
         versionCode 163
