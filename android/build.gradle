@@ -76,6 +76,8 @@ dependencies {
     implementation files('BarcodeScannerLibrary/barcode_scanner_library_v2.6.19.0-release.aar')
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    // Fix Duplicate class
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
 
 def configureReactNativePom(def pom) {
