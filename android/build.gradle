@@ -12,7 +12,7 @@
 
 def DEFAULT_COMPILE_SDK_VERSION = 29
 def DEFAULT_BUILD_TOOLS_VERSION = '29.0.3'
-def DEFAULT_MIN_SDK_VERSION = 29
+def DEFAULT_MIN_SDK_VERSION = 19
 def DEFAULT_TARGET_SDK_VERSION = 29
 
 def safeExtGet(prop, fallback) {
@@ -20,7 +20,7 @@ def safeExtGet(prop, fallback) {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 buildscript {
     // The Android Gradle plugin is only required when opening the android folder stand-alone.
@@ -39,10 +39,10 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
     buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
     defaultConfig {
         minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
@@ -72,12 +72,9 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
-    implementation files('BarcodeScannerLibrary/barcode_scanner_library_v2.6.19.0-release.aar')
+    implementation project(':BarcodeScannerLibrary')
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    // Fix Duplicate class
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
 
 def configureReactNativePom(def pom) {
@@ -91,6 +88,14 @@ def configureReactNativePom(def pom) {
         description packageJson.description
         url packageJson.repository.baseUrl
 
+        licenses {
+            license {
+                name packageJson.license
+                url packageJson.repository.baseUrl + '/blob/master/' + packageJson.licenseFilename
+                distribution 'repo'
+            }
+        }
+
         developers {
             developer {
                 id packageJson.author.username
@@ -100,8 +105,20 @@ def configureReactNativePom(def pom) {
     }
 }
 
-
 afterEvaluate { project ->
+    // some Gradle build hooks ref:
+    // https://www.oreilly.com/library/view/gradle-beyond-the/9781449373801/ch03.html
+    task androidJavadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += files(android.bootClasspath)
+        classpath += files(project.getConfigurations().getByName('compile').asList())
+        include '**/*.java'
+    }
+
+    task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+        classifier = 'javadoc'
+        from androidJavadoc.destinationDir
+    }
 
     task androidSourcesJar(type: Jar) {
         classifier = 'sources'
@@ -120,5 +137,15 @@ afterEvaluate { project ->
 
     artifacts {
         archives androidSourcesJar
+        archives androidJavadocJar
+    }
+
+    task installArchives(type: Upload) {
+        configuration = configurations.archives
+        repositories.mavenDeployer {
+            // Deploy to react-native-event-bridge/maven, ready to publish to npm
+            repository url: "file://${projectDir}/../android/maven"
+            configureReactNativePom pom
+        }
     }
 }

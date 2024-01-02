@@ -1,16 +1,16 @@
 {
   "name": "react-native-scanner-zebra-enhanced",
-  "title": "React Native Scanner Zebra Enhanced",
-  "version": "0.1.14",
-  "description": "React Native module for Zebra barcode scanners Android/IOS ",
-  "homepage": "https://github.com/intellidev1991/react-native-scanner-zebra#readme",
-  "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra",
+  "title": "React Native Scanner Zebra",
+  "version": "0.2.32",
+  "description": "React Native module for Zebra barcode scanners",
+  "homepage": "https://github.com/intellidev1991/react-native-scanner-zebra-enhanced#readme",
+  "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra-enhanced",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intellidev1991/react-native-scanner-zebra.git",
-    "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra"
+    "url": "git+https://github.com/intellidev1991/react-native-scanner-zebra-enhanced.git",
+    "baseUrl": "https://github.com/intellidev1991/react-native-scanner-zebra-enhanced"
   },
   "keywords": [
     "react-native",
@@ -28,7 +28,7 @@
     "android",
     "ios",
     "lib",
-    "react-native-scanner-zebra-enhanced.podspec",
+    "react-native-scanner-zebra.podspec",
     "!.DS_Store",
     "!.gradle",
     "!.idea",
