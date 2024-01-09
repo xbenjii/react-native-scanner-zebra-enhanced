@@ -17,8 +17,12 @@
 #import <Foundation/Foundation.h>
 #import "ISbtSdkApi.h"
 
+/// A class that facilitates to obtain a single shared instance of the Zebra Scanner SDK API.
 @interface SbtSdkFactory : NSObject
 
+/// Get an instance to the Zebra Scanner SDK API.
+///
+/// - Returns: A single shared instance of an API object that implements the ISbtSdkApi.
 +(id<ISbtSdkApi>)createSbtSdkApiInstance;
 
 @end
