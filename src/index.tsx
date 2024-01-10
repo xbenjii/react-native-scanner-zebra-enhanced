@@ -5,7 +5,7 @@ import {
   NativeModules,
 } from 'react-native'
 
-const ZebraScanner = NativeModules.ZebraScanner || {} // Hacky fallback for iOS
+const { ZebraScanner } = NativeModules
 const RNZebraScanner = new NativeEventEmitter(ZebraScanner)
 
 type EventBarcode = {
