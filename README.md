@@ -26,22 +26,24 @@
 
 ## Usage
 
-````javascript
-import useZebraScanner from 'react-native-scanner-zebra';
+```javascript
+import useZebraScanner from 'react-native-scanner-zebra'
 
 // Called when barcode is scanned
 const onScan = useCallback((barcode, scannerId) => {
-	// Handle the barcode
-}, []);
+  // Handle the barcode
+}, [])
 
 // Called when scanner event occurred
 const onEvent = useCallback((event, scannerId) => {
-	// Handle the event
-}, []);
+  // Handle the event
+}, [])
 
-const { setEnabled, getActiveScanners } = useZebraScanner(onScan, onEvent);
+const { setEnabled, getActiveScanners } = useZebraScanner(onScan, onEvent)
+```
 
-## Example
+## React native | Expo Example
+
 ```javascript
 import React, { useState, useCallback, useEffect } from 'react'
 import {
@@ -253,4 +255,4 @@ const styles = StyleSheet.create({
   }
 })
 
-````
+```
