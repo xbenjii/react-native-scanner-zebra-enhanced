@@ -7,6 +7,40 @@
 
 import Foundation
 
+class zt_BarcodeData {
+    private var m_DecodeType: Int32
+    private var m_DecodeData: Data
+
+    init(data barcodeData: Data, type barcodeType: Int32) {
+        m_DecodeType = barcodeType
+        m_DecodeData = barcodeData
+    }
+
+    deinit {
+        // Release resources if needed
+    }
+
+    func getDecodeType() -> Int32 {
+        return m_DecodeType
+    }
+
+    func getDecodeData() -> Data {
+        return m_DecodeData
+    }
+
+    func getDecodeDataAsString(using encoding: String.Encoding) -> String {
+        if let decodeDataString = String(data: m_DecodeData, encoding: encoding) {
+            return decodeDataString
+        } else {
+            var decodeDataBytesStr = "Data cannot be displayed as string:"
+            m_DecodeData.forEach { byte in
+                decodeDataBytesStr += String(format: " 0x%02X", byte)
+            }
+            return decodeDataBytesStr
+        }
+    }
+}
+
 struct Scanner {
     var scannerId: Int32
     var name: String
@@ -220,9 +254,11 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
     }
 
     func sbtEventBarcodeData(_ barcodeData: Data!, barcodeType: Int32, fromScanner scannerId: Int32) {
-        if let data = barcodeData {
-            self.sendEvent(event: "scanner-barcode-data",
-                           data: ["id": scannerId, "barcode": data as NSData, "type": barcodeType])
+        if barcodeData != nil {
+            let barcode_decode = zt_BarcodeData(data: barcodeData, type: barcodeType)
+            let barcode_string=barcode_decode.getDecodeDataAsString(using: String.Encoding.utf8)
+        
+            self.sendEvent(event: "scanner-barcode-data",data: ["id": scannerId, "barcode":barcode_string , "type": barcodeType])
         }
     }
 
