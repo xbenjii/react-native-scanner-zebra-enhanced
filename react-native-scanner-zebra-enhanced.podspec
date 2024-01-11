@@ -14,19 +14,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/intellidev1991/react-native-scanner-zebra-enhanced.git", :tag => "v#{s.version}" }
   s.source_files  = "ios/**/*.{h,m,swift}"
-
-  if s.simulator_supported?
-    # Settings for iOS simulator
-    s.subspec 'Simulator' do |simulator|
-      s.ios.vendored_library = 'ios/libs/libZebraSdk_sim.a'
-    end
-  else
-    # Settings for non-simulator iOS
-    s.subspec 'NonSimulator' do |non_simulator|
-      s.ios.vendored_library = 'ios/libs/libZebraSdk.a'
-    end
-  end
-
+  s.ios.vendored_library = 'ios/libs/libZebraSdk.a'
   s.ios.framework = 'ExternalAccessory', 'CoreBluetooth'
   s.dependency 'React'
 end

@@ -64,30 +64,17 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
             "scanner-disappeared",
             "scanner-connected",
             "scanner-disconnected",
-            "scanner-barcode",
-            "scanner-barcode-data"
+            "scanner-barcode-data",
         ]
     }
-
+    
     func setEnabled(_ isEnabled: Bool) {
         for item in availableScanners {
             enableScanner(item.scannerId, isEnabled: isEnabled)
         }
     }
-
-    func addListener(_ listener: ScannerEventListener) {
-        // if listeners.compactMap({ $0.value }).contains(listener) { return }
-        listeners.append(WeakReference(value: listener))
-    }
-
-    // Private Functions
-    fileprivate func setupApi() {
-        apiInstance.sbtSetOperationalMode(Int32(SBT_OPMODE_BTLE))
-        apiInstance.sbtSubsribe(forEvents: Int32(SBT_EVENT_SCANNER_APPEARANCE |
-                                                    SBT_EVENT_SCANNER_DISAPPEARANCE | SBT_EVENT_SESSION_ESTABLISHMENT |
-                                                    SBT_EVENT_SESSION_TERMINATION | SBT_EVENT_BARCODE))
-        apiInstance.sbtEnableAvailableScannersDetection(true)
-        
+    
+    func refreshAvailableScanners() {
         var scanners = NSMutableArray()
         let scannerPointer = AutoreleasingUnsafeMutablePointer<NSMutableArray?>.init(&scanners)
         apiInstance.sbtGetActiveScannersList(scannerPointer)
@@ -96,6 +83,29 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
             let scanner = item as! SbtScannerInfo
             addAvailableScanner(scanner.getScannerID(), name: scanner.getScannerName())
         }
+    }
+
+    func addListener(_ listener: ScannerEventListener) {
+        // if listeners.compactMap({ $0.value }).contains(listener) { return }
+        listeners.append(WeakReference(value: listener))
+    }
+    
+    func setAutoReconnectToScanner(_ scannerId: Int32) {
+        self.automaticReConnectToScanner(scannerId)
+    }
+
+    func setEnableScanningCapability(_ scannerId: Int32) {
+        self.enableScanningCapability(scannerId)
+    } 
+
+    // Private Functions
+    fileprivate func setupApi() {
+        apiInstance.sbtSetOperationalMode(Int32(SBT_OPMODE_BTLE))
+        apiInstance.sbtSubsribe(forEvents:Int32(SBT_EVENT_SCANNER_APPEARANCE |
+                                                    SBT_EVENT_SCANNER_DISAPPEARANCE | SBT_EVENT_SESSION_ESTABLISHMENT |
+                                                    SBT_EVENT_SESSION_TERMINATION | SBT_EVENT_BARCODE))
+        apiInstance.sbtEnableAvailableScannersDetection(true)
+        self.refreshAvailableScanners()
     }
 
     fileprivate func addAvailableScanner(_ scannerId: Int32, name: String) {
@@ -125,7 +135,7 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
     }
 
     fileprivate func disconnectToScanner(_ scannerId: Int32) {
-        let result: SBT_RESULT = apiInstance.sbtEstablishCommunicationSession(scannerId)
+        let result: SBT_RESULT = apiInstance.sbtTerminateCommunicationSession(scannerId)
         if result == SBT_RESULT_SUCCESS {
             print("Disconnected from scanner")
         } else {
@@ -206,10 +216,7 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
     }
 
     func sbtEventBarcode(_ barcodeData: String!, barcodeType: Int32, fromScanner scannerId: Int32) {
-        if let barcode = barcodeData {
-            self.sendEvent(event: "scanner-barcode",
-                           data: ["id": scannerId, "barcode": barcode, "type": barcodeType])
-        }
+        // Deprecated. Use sbtEventBarcodeData
     }
 
     func sbtEventBarcodeData(_ barcodeData: Data!, barcodeType: Int32, fromScanner scannerId: Int32) {
@@ -220,11 +227,5 @@ class ZebraScannerManager: NSObject, ISbtSdkApiDelegate {
     }
 
     func sbtEventFirmwareUpdate(_ fwUpdateEventObj: FirmwareUpdateEvent!) {
-    }
-
-    func sbtEventImage(_ imageData: Data!, fromScanner scannerId: Int32) {
-    }
-
-    func sbtEventVideo(_ videoFrame: Data!, fromScanner scannerId: Int32) {
     }
 }

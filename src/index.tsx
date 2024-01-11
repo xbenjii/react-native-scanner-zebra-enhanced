@@ -52,7 +52,9 @@ const useZebraScanner = (
     }
 
     const listeners: EventSubscription[] = []
-    listeners.push(RNZebraScanner.addListener('scanner-barcode', handleEvent))
+    listeners.push(
+      RNZebraScanner.addListener('scanner-barcode-data', handleEvent)
+    )
 
     if (onEvent) {
       supportedEvents.forEach((event: string) => {
