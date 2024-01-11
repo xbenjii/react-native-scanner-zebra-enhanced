@@ -5,12 +5,14 @@
 ## Installing for both React Native | Expo
 
 `npm install react-native-scanner-zebra-enhanced`
+
 `yarn add react-native-scanner-zebra-enhanced`
+
 `npx expo install react-native-scanner-zebra-enhanced`
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-scanner-zebra-enhanced`
+`react-native link react-native-scanner-zebra-enhanced`
 
 ### Official Zebra SDK
 
