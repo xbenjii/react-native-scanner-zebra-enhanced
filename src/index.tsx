@@ -5,7 +5,7 @@ import {
   NativeModules,
 } from 'react-native'
 
-const { ZebraScanner } = NativeModules
+const ZebraScanner = NativeModules?.ZebraScanner || {}
 const RNZebraScanner = new NativeEventEmitter(ZebraScanner)
 
 type EventBarcode = {

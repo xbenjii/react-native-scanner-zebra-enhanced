@@ -5,9 +5,9 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
-import useZebraScanner from 'react-native-scanner-zebra'
+import useZebraScanner from 'react-native-scanner-zebra-enhanced'
 
 interface IEventBarcode {
   code: string
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
-    color: '#202020'
+    color: '#202020',
   },
   headingRow: {
     width: '100%',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'left',
-    color: '#202020'
+    color: '#202020',
   },
   event: {
     width: '100%',
@@ -109,27 +109,33 @@ const styles = StyleSheet.create({
   buttonLabel: {
     fontSize: 18,
     textAlign: 'center',
-  }
-});
+  },
+})
 
 const App = () => {
   const [state, setState] = useState<IEventState>({
     barcode: null,
     events: [],
-  });
+  })
 
-  const onScan = useCallback((code, scannerId) => {
-    setState((prevState) => {
-      return { ...prevState, barcode: { code, scannerId } };
-    });
-  }, [setState])
+  const onScan = useCallback(
+    (code, scannerId) => {
+      setState((prevState) => {
+        return { ...prevState, barcode: { code, scannerId } }
+      })
+    },
+    [setState]
+  )
 
-  const onEvent = useCallback((name, scannerId) => {
-    setState((prevState) => {
-      prevState.events.unshift({ name, scannerId });
-      return { ...prevState };
-    });
-  }, [setState]);
+  const onEvent = useCallback(
+    (name, scannerId) => {
+      setState((prevState) => {
+        prevState.events.unshift({ name, scannerId })
+        return { ...prevState }
+      })
+    },
+    [setState]
+  )
 
   const { setEnabled, getActiveScanners } = useZebraScanner(onScan, onEvent)
 
@@ -143,7 +149,7 @@ const App = () => {
 
   useEffect(() => {
     getActiveScanners((scanners) => {
-      console.log('Active scanners', scanners);
+      console.log('Active scanners', scanners)
     })
   }, [])
 
@@ -151,38 +157,51 @@ const App = () => {
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         <Text style={styles.title}>Zebra Scanner Demo</Text>
-        <View style={styles.headingRow}><Text style={styles.heading}>Actions:</Text></View>
-        <View style={styles.actions}>
-            <TouchableOpacity onPress={onEnable}>
-              <View style={styles.button}>
-                <Text style={styles.buttonLabel}>Enable Scanners</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onDisable}>
-              <View style={styles.button}>
-                <Text style={styles.buttonLabel}>Disable Scanners</Text>
-              </View>
-            </TouchableOpacity>
+        <View style={styles.headingRow}>
+          <Text style={styles.heading}>Actions:</Text>
         </View>
-        <View style={styles.headingRow}><Text style={styles.heading}>Barcode:</Text></View>
+        <View style={styles.actions}>
+          <TouchableOpacity onPress={onEnable}>
+            <View style={styles.button}>
+              <Text style={styles.buttonLabel}>Enable Scanners</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onDisable}>
+            <View style={styles.button}>
+              <Text style={styles.buttonLabel}>Disable Scanners</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headingRow}>
+          <Text style={styles.heading}>Barcode:</Text>
+        </View>
         {state.barcode !== null && (
           <View style={styles.event}>
             <Text style={styles.eventName}>Code: {state.barcode.code}</Text>
-            <Text style={styles.eventData}>Scanner: {`${state.barcode.scannerId}`}</Text>
+            <Text style={styles.eventData}>
+              Scanner: {`${state.barcode.scannerId}`}
+            </Text>
           </View>
         )}
-        <View style={styles.headingRow}><Text style={styles.heading}>Events:</Text></View>
-        <ScrollView style={styles.eventList} contentContainerStyle={styles.eventListContent}>
+        <View style={styles.headingRow}>
+          <Text style={styles.heading}>Events:</Text>
+        </View>
+        <ScrollView
+          style={styles.eventList}
+          contentContainerStyle={styles.eventListContent}
+        >
           {state.events.map((event) => (
             <View style={[styles.event, styles.eventRow]}>
               <Text style={styles.eventName}>Event: {event.name}</Text>
-              <Text style={styles.eventData}>Scanner: {`${event.scannerId}`}</Text>
+              <Text style={styles.eventData}>
+                Scanner: {`${event.scannerId}`}
+              </Text>
             </View>
           ))}
         </ScrollView>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 export default App
