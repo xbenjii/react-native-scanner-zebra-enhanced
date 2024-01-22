@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-native-scanner-zebra-enhanced.svg)](https://www.npmjs.com/package/react-native-scanner-zebra-enhanced) ![npm](https://img.shields.io/npm/dt/react-native-scanner-zebra-enhanced.svg)
 
-- In this package IOS is work perfectly with the latest SDK, but Android part based on the latest SDK needs to be implemented. Any Contribution are welcome!\*
+- In this package IOS is working perfectly with the latest SDK, but Android part based on the latest SDK needs to be implemented. Any Contribution are welcome!\*
 
 ## Installing for both React Native | Expo
 
