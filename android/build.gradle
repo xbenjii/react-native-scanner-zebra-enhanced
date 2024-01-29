@@ -31,5 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-native:0.20.1'
+    implementation files('libs/barcode_scanner_library_v2.6.19.0-release.aar')
+    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
 }

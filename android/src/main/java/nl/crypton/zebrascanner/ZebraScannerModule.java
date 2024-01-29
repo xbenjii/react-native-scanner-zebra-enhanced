@@ -14,10 +14,12 @@ import java.util.List;
 public class ZebraScannerModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
+    private final ZebraScannerManager scannerManager;
 
     public ZebraScannerModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        this.scannerManager = new ZebraScannerManager(reactContext);
     }
 
     @Override
@@ -27,11 +29,21 @@ public class ZebraScannerModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setEnabled(boolean isEnabled) {
+        this.scannerManager.setEnabled(isEnabled);
     }
 
     @ReactMethod
     public void getActiveScanners(Callback callback) {
+        List<Scanner> scanners = scannerManager.getActiveScanners();
         WritableArray writableScanners = new WritableNativeArray();
+
+        for (Scanner item: scanners) {
+            WritableMap scannerMap = new WritableNativeMap();
+            writableScanners.pushMap(scannerMap);
+            scannerMap.putInt("id", item.getScannerId());
+            scannerMap.putString("name", item.getName());
+        }
+
         callback.invoke(writableScanners);
     }
 }
